@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
+
 public class PlayerController2D : MonoBehaviour
 {
     // Public variables
@@ -24,9 +25,9 @@ public class PlayerController2D : MonoBehaviour
 
     public HealthBar healthBar;
     public ExpBar expBar;
-    [SerializeField] TMP_Text GoldCounter;    
-    
-    //Shop stats
+    [SerializeField] TMP_Text GoldCounter;
+
+    // Shop stats
     public int healthUpgradeCost = 100;
     public int speedUpgradeCost = 250;
     public int damageUpgradeCost = 200;
@@ -41,6 +42,7 @@ public class PlayerController2D : MonoBehaviour
     public int currentSpeedUpgrades = 0;
     public int currentDamageUpgrades = 0;
     public int currentFireRateUpgrades = 0;
+
     void Start()
     {
         // Initialize the Rigidbody2D component
@@ -51,7 +53,7 @@ public class PlayerController2D : MonoBehaviour
         // Set up health bar
         healthBar.SetMaxHealth(maxHealth);
 
-        // Find the child GameObject named "player_0" and get its Animator component
+        // Find the child GameObject named "Player_0" and get its Animator component
         Transform child = transform.Find("Player_0");
         if (child != null)
         {
@@ -59,7 +61,7 @@ public class PlayerController2D : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Child GameObject 'player_0' not found!");
+            Debug.LogError("Child GameObject 'Player_0' not found!");
         }
 
         // Initialize the timer for the last damage
@@ -80,6 +82,13 @@ public class PlayerController2D : MonoBehaviour
         else if (horizontalInput > 0)
         {
             transform.localScale = new Vector3(1.5f, 1.5f, 1); // Normal orientation
+        }
+
+        // Ensure the bow remains unflipped
+        if (transform.Find("Bow") != null)
+        {
+            Transform bow = transform.Find("Bow");
+            bow.localScale = new Vector3(1f, 1f, 1f); // Reset the bow's scale
         }
 
         // Check if diagonal movement is allowed
@@ -127,19 +136,16 @@ public class PlayerController2D : MonoBehaviour
 
             // Update horizontal velocity parameter for running animation
             animator.SetFloat("xVelocity", Mathf.Abs(horizontalVelocity));
-            
-            if(horizontalVelocity == 0){
-            // Optional: You could set yVelocity for any specific vertical animation (e.g., jump or fall)
-            animator.SetFloat("xVelocity", Mathf.Abs(verticalVelocity));
-            }
 
-            // Debugging: log the velocity values
+            if (horizontalVelocity == 0)
+            {
+                // Optional: Update vertical velocity if no horizontal movement
+                animator.SetFloat("xVelocity", Mathf.Abs(verticalVelocity));
+            }
         }
     }
 
-
     // Method to take damage
-   
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -152,7 +158,6 @@ public class PlayerController2D : MonoBehaviour
             animator.SetTrigger("TakeDamage");
         }
 
-
         // Update the health bar
         healthBar.setHealth(health);
 
@@ -162,7 +167,6 @@ public class PlayerController2D : MonoBehaviour
             Die();
         }
     }
-
 
     // Handle player death
     private void Die()
@@ -177,18 +181,16 @@ public class PlayerController2D : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             EnemyAi enemy = collision.gameObject.GetComponent<EnemyAi>();
-            if (enemy )
+            if (enemy)
             {
                 int damage = enemy.damage;
-                
+
                 if (Time.time >= lastDamageTime + damageCooldown)
                 {
                     TakeDamage(damage);
                     lastDamageTime = Time.time; // Update the last damage time
                 }
             }
-            // Check if the cooldown period has elapsed since the last damage
-            
         }
     }
 
@@ -229,13 +231,13 @@ public class PlayerController2D : MonoBehaviour
     {
         currentExp += newExp;
         expBar.UpdateExpBar(currentExp, maxExp);
-        
+
         if (currentExp >= maxExp)
         {
             LevelUp();
         }
     }
-    
+
     private void LevelUp()
     {
         level++;
@@ -247,22 +249,17 @@ public class PlayerController2D : MonoBehaviour
         {
             health = maxHealth;
         }
-        
+
         healthBar.SetMaxHealth(maxHealth);
         healthBar.setHealth(health);
-        
+
         expBar.SetMaxExp(maxExp);
         expBar.UpdateExpBar(currentExp, maxExp);
-        
     }
-    
-    
-    
+
     private void HandleGoldChange(int newGold)
     {
         goldAmount += newGold;
-        GoldCounter.text =  (goldAmount.ToString());
-
+        GoldCounter.text = (goldAmount.ToString());
     }
-    
 }

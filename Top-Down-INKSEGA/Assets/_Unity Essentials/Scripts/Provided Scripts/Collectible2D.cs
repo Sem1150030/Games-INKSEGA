@@ -26,6 +26,7 @@ public class Collectible2D : MonoBehaviour
 
             // Instantiate the particle effect
             Instantiate(onCollectEffect, transform.position, transform.rotation);
+            
         }
 
         

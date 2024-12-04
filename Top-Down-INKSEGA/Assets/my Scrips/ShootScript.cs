@@ -12,7 +12,7 @@ public class ShootScript : MonoBehaviour
     // public AudioClip shootSound;
     
     
-    public Transform Gun;
+    // public Transform Gun;
     public GameObject Bullet;
     public float bulletSpeed;
     public Transform shootPoint;
@@ -31,9 +31,9 @@ public class ShootScript : MonoBehaviour
     void Update()
     {
         // Get mouse position
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        direction = mousePos - (Vector2)Gun.position;
-        FaceMouse();
+        // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // direction = mousePos - (Vector2)Gun.position;
+        // FaceMouse();
 
         // Check if the mouse button is held down (for automatic fire)
         if (Input.GetMouseButton(0)) // Mouse button is held down
@@ -47,10 +47,10 @@ public class ShootScript : MonoBehaviour
         }
     }
 
-    void FaceMouse()
-    {
-        Gun.transform.right = direction; // Rotate the gun to face the mouse
-    }
+    // void FaceMouse()
+    // {
+    //     Gun.transform.right = direction; // Rotate the gun to face the mouse
+    // }
 
     void Shoot()
     {

@@ -561,5 +561,7 @@ MonoBehaviour:
   maxHealth: 250
   healthBar: {fileID: 8545233577425352762}
   damage: 15
+  onCollectEffect: {fileID: 9163842254569548763, guid: 6d15eb92a997141259e4d43b70fa3ea9,
+    type: 3}
   expAmount: 100
   goldAmount: 8

@@ -12,6 +12,7 @@ public class EnemyAi : MonoBehaviour
     public int maxHealth = 100;  // Maximum health value
     public EnemyHealthBar healthBar;  // Reference to the health bar
     public int damage = 10;
+    public GameObject onCollectEffect;
 
     private float distanceToPlayer;  // Distance between the AI and the player
 
@@ -67,6 +68,9 @@ public class EnemyAi : MonoBehaviour
     {
         health -= damage;
         Debug.Log("Player health: " + health);
+       GameObject effectInstance =  Instantiate(onCollectEffect, transform.position, transform.rotation);
+
+         Destroy(effectInstance, 0.39f);
 
         // Trigger the damage animation
         
